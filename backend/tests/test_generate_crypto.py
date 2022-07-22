@@ -13,12 +13,12 @@ class TestGenerateCrypto(unittest.TestCase):
         cls.test_client = app.test_client()
 
     def test_generate_crypto(self):
-        res = self.test_client.get('/crypto/generate')
+        res = self.test_client.get('/crypto/wallet/generate')
         self.assertEqual(res.status_code, 200)
         self.assertEqual(res.json['address'], c.pubtoaddr(c.privtopub((res.json['private_key']))))
 
     def test_generate_with_seed(self):
-        res = self.test_client.get('/crypto/generate?seed=a big long brainwallet password')
+        res = self.test_client.get('/crypto/wallet/generate?seed=a big long brainwallet password')
         self.assertEqual(res.status_code, 200)
         self.assertEqual(res.json['private_key'], '89d8d898b95addf569b458fbbd25620e9c9b19c9f730d5d60102abbabcb72678')
         self.assertEqual(res.json['address'], 'mwJUQbdhamwemrsR17oy7z9upFh4JtNxm1')
