@@ -33,6 +33,30 @@ class Wallet:
         else:
             return None
 
+    def get_utxo_by_txid(self, txid):
+        """
+        Returns the unspent transactions of the given address or None
+        """
+        if not self.utxos:
+            return None
+        for utxo in self.utxos:
+            if utxo["txid"] == txid:
+                return utxo
+        return None
+
+    def get_total_utxo_value(self, txids):
+        """
+        Returns the total value of the given txids.
+        """
+        if self.balance is None: # Invalid addresses are handled as None
+            return None
+        total = 0
+        for txid in txids:
+            utxo = self.get_utxo_by_txid(txid)
+            if utxo:
+                total += utxo["value"]
+        return total
+
     @staticmethod
     def create_transaction(transaction_hex):
         """
