@@ -16,6 +16,29 @@ import React, {useState} from 'react';
 }
 
 /**
+ * The red button (used for deleting)
+ */
+export function ButtonRed(props){
+    return (
+        <button className="flex items-center justify-center w-auto  min-w-[140px] bg-red-400 text-white font-bold py-2 px-4 rounded-lg cursor-pointer h-[40px] disabled:opacity-80 disabled:cursor-default disabled:bg-red-400 disabled:text-white disabled:border-0 hover:border-2 hover:text-red-600 hover:border-red-600 hover:bg-transparent" onClick={props.onClick} disabled={props.disabled}>
+            {props.children}
+        </button>
+    )
+}
+
+export function ButtonGreen(props){
+    return (
+        <button className="flex items-center justify-center w-auto  min-w-[140px] bg-green-400 text-white font-bold py-2 px-4 rounded-lg cursor-pointer h-[40px] disabled:opacity-80 disabled:cursor-default disabled:bg-green-400 disabled:text-white disabled:border-0 hover:border-2 hover:text-green-600 hover:border-green-600 hover:bg-transparent" onClick={props.onClick} disabled={props.disabled}>
+            {props.children}
+        </button>
+    )
+}
+
+/**
+ * 
+ */
+
+/**
  * A component that has a button and then displays nested JSON w/ the results of an
  * asyncronous call. Shows a loader until the call is completed.
  * @param {object} children - Text to display within the action button.
@@ -38,7 +61,8 @@ export function AsyncActionButton(props){
                 setActionResponse({"error": resp.data.error || "An error occurred."});
             }
         } catch (err){
-            setActionResponse({"error": err.message || "An error occurred."});
+            
+            setActionResponse({"error": err.response.data.error || "An error occurred."});
         }
         setLoading(false);
     }

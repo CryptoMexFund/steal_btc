@@ -70,6 +70,8 @@ def generate_transaction():
         for output in outputs:
             if output.keys() != {'address', 'value'}:
                 return jsonify({'success': False, 'error': 'Invalid output'}), 400
+            # Convert value to a float.
+            output['value'] = float(output['value'])
         for utxo_input in utxo_inputs:
             utxo = wallet.get_utxo_by_txid(utxo_input)
             if utxo is None:
@@ -85,4 +87,7 @@ def generate_transaction():
         return jsonify({'success': True, 'tx': unsigned_tx})
     except KeyError:
         return jsonify({'success': False, 'error': 'Missing required fields.'}), 400
+    except ValueError:
+        return jsonify({'success': False, 'error': 'Invalid value (are your output amounts valid?)'}), 400
+    
 
