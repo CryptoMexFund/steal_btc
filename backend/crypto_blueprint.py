@@ -30,6 +30,23 @@ def generate_crypto_wallet():
     address = btc.pubtoaddr(btc.privtopub(private_key))
     return jsonify({'success': True, 'address': address, 'private_key': private_key})
 
+@crypto_blueprint.route('/wallet/utxos', methods=["GET"])
+def get_utxos():
+    """
+    Gets the UTXOs for a given address.
+
+    Arguments (in the query string):
+        <string> address: The address to get the UTXOs for.
+
+    Returns:
+        <dict>: A dictionary containing the UTXOs.
+    """
+    address = request.args.get('address')
+    utxos = Wallet(address).utxos
+    if utxos is None:
+        return jsonify({'success': False, 'error': 'Invalid address'})
+    return jsonify({'success': True, 'utxos': utxos})
+
 @crypto_blueprint.route("/transaction/generate", methods=["POST"])
 def generate_transaction():
     """
