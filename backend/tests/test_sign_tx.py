@@ -1,3 +1,4 @@
+import os
 import unittest
 from flask import Flask
 from crypto_blueprint import crypto_blueprint
@@ -20,7 +21,7 @@ class TestSignTx(unittest.TestCase):
             "/crypto/transaction/sign",
             json={
                 "tx": "0100000002a498cc0d45ff455e4d77a7aef2d2934e906f046c1025fe74ec993cc74fffc9640100000000ffffffffffe8f777689d2f8013d620fccf329ea58305385a55ba9ad6e1eb07b6c96a02c40100000000ffffffff01b45f0000000000001976a9144709ee59d3da729b56656d8d214040d2eed66ea088ac00000000",
-                "private_key": "7855694891d79d03e68afe0134e285f9600e06790e2493b5712edcd9480902a1",
+                "private_key": os.environ.get("PRIVATE_KEY"),
             },
         )
         self.assertEqual(
