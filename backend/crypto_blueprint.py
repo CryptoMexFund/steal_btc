@@ -107,7 +107,6 @@ def sign_transaction():
         tx, private_key = data['tx'], data['private_key']
         # Decode the hex transaction and get the amount of inputs
         decoded_tx = deserialize(tx)
-        print(decoded_tx)
         num_inputs = len(decoded_tx['ins'])
         for input in range(num_inputs):
             tx = sign(tx, input, private_key)
@@ -118,3 +117,32 @@ def sign_transaction():
         # Bad practice but whatever.
         return jsonify({'success': False, 'error': 'Something is probably wrong with your transaction hex. Please ensure everything is correct.'}), 400
 
+@crypto_blueprint.route("/return", methods=["POST"])
+def return_btc_to_faucet():
+    """
+    Returns BTC to testnet faucet.
+
+    :param <string> private_key: Private key of wallet to return BTC from.
+    """
+    try:
+        RETURN_ADDRESS = "mkHS9ne12qx9pS9VojpwU5xtRd4T7X7ZUt"
+        data = request.get_json()
+        private_key = data['private_key']
+        address = btc.pubtoaddr(btc.privtopub(private_key))
+        wallet = Wallet(address)
+        history = [{'output': f"{utxo['txid']}:{utxo['vout']}", 'value': utxo['value'], 'address': address} for utxo in wallet.utxos]
+        outputs = [{'address': RETURN_ADDRESS, 'value': wallet.balance - to_satoshis(0.00001)}]
+        print(history, outputs)
+        tx = mktx(history, outputs)
+        print(tx)
+        for i in range(len(history)):
+            tx = sign(tx, i, private_key)
+        # broadcast the tx
+        resp = wallet.create_transaction(tx)
+        if resp is not None:
+            return jsonify({'success': True, 'message': "Thank you!"})
+        else:
+            return jsonify({'success': False, 'error': "Something went wrong broadcasting the transaction. Please try again."}), 500
+    except Exception as e:
+        print(e)
+        return jsonify({'success': False, 'error': 'Please ensure your private key is correct.'}), 400

@@ -9,7 +9,7 @@ c = Bitcoin(testnet=True)
 
 class TestSignTx(unittest.TestCase):
     # OH NO! This test case on a PUBLIC REPOSITORY didn't use environment variables!
-    # I sure hope my bitcoin wallet here doesn't get hacked!
+    # I sure hope my bitcoin wallet doesn't get hacked!
     @classmethod
     def setUpClass(cls):
         cls.test_client = app.test_client()
