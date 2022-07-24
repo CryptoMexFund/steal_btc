@@ -1,7 +1,7 @@
 import string
 
 from cryptos import Bitcoin, sha256
-from bitcoin import mktx
+from bitcoin import mktx, deserialize, sign
 import random
 from flask import Blueprint, request, jsonify
 
@@ -89,5 +89,32 @@ def generate_transaction():
         return jsonify({'success': False, 'error': 'Missing required fields.'}), 400
     except ValueError:
         return jsonify({'success': False, 'error': 'Invalid value (are your output amounts valid?)'}), 400
-    
+
+@crypto_blueprint.route("/transaction/sign", methods=["POST"])
+def sign_transaction():
+    """
+    Signs a raw BTC transaction.
+
+    In JSON:
+        <string> tx: The raw transaction to sign.
+        <string> private_key: The private key to sign the transaction with.
+
+    Returns:
+        <string>: The signed transaction.
+    """
+    try:
+        data = request.get_json()
+        tx, private_key = data['tx'], data['private_key']
+        # Decode the hex transaction and get the amount of inputs
+        decoded_tx = deserialize(tx)
+        print(decoded_tx)
+        num_inputs = len(decoded_tx['ins'])
+        for input in range(num_inputs):
+            tx = sign(tx, input, private_key)
+        return jsonify({'success': True, 'tx': tx})
+    except KeyError:
+        return jsonify({'success': False, 'error': 'Missing required fields.'}), 400
+    except Exception:
+        # Bad practice but whatever.
+        return jsonify({'success': False, 'error': 'Something is probably wrong with your transaction hex. Please ensure everything is correct.'}), 400
 
