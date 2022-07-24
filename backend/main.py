@@ -7,9 +7,9 @@ app = Flask(__name__)
 
 app.register_blueprint(crypto_blueprint)
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     load_dotenv()
-    if os.environ.get('ENV') == 'dev':
-        app.run('localhost', 5000, debug=True)
+    if os.environ.get("ENV") == "dev":
+        app.run("localhost", 5000, debug=True)
     else:
         pass

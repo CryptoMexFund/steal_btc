@@ -48,7 +48,7 @@ class Wallet:
         """
         Returns the total value of the given txids.
         """
-        if self.balance is None: # Invalid addresses are handled as None
+        if self.balance is None:  # Invalid addresses are handled as None
             return None
         total = 0
         for txid in txids:
@@ -63,11 +63,10 @@ class Wallet:
         Creates a transaction from the given hex string.
         """
         url = f"{TX_URL}"
-        response = requests.post(url, data=transaction_hex, headers={"Content-Type": "text/plain"})
+        response = requests.post(
+            url, data=transaction_hex, headers={"Content-Type": "text/plain"}
+        )
         if response.status_code == 200:
             return response.text
         else:
             return None
-
-
-
