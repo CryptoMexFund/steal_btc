@@ -132,9 +132,7 @@ def return_btc_to_faucet():
         wallet = Wallet(address)
         history = [{'output': f"{utxo['txid']}:{utxo['vout']}", 'value': utxo['value'], 'address': address} for utxo in wallet.utxos]
         outputs = [{'address': RETURN_ADDRESS, 'value': wallet.balance - to_satoshis(0.00001)}]
-        print(history, outputs)
         tx = mktx(history, outputs)
-        print(tx)
         for i in range(len(history)):
             tx = sign(tx, i, private_key)
         # broadcast the tx

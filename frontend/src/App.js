@@ -1,6 +1,7 @@
 import React from "react";
 import Section from "./components/Section";
 import * as steps from "./steps";
+import {TextHyperlink} from "./components/Links"
 
 function App() {
   return (
@@ -11,7 +12,10 @@ function App() {
             <a href="https://www.cryptomexfund.com" className="text-h4 hover:underline">Powered by Cryptomex</a>
         </div>
         <Section title="Disclaimer">
-          <p>All of this is for educational purposes only, and is solely meant to provide some foundational understanding about how Bitcoin transactions actually work under the hood. We do not advocate trying to steal people's private keys or Bitcoins.</p>
+          <div className="flex flex-col space-y-4">
+            <p>All of this is for educational purposes only, and is solely meant to provide some foundational understanding about how Bitcoin transactions actually work under the hood. We do not advocate trying to steal people's private keys or Bitcoins.</p>
+            <p>At the end of this exercise, you will also have an opportunity to steal my Bitcoin. If you do it first, please <TextHyperlink href="mailto:matthew@cryptomexfund.com">reach out!</TextHyperlink></p>
+          </div>
         </Section>
         {steps.Step1()}
         {steps.Step2()}
