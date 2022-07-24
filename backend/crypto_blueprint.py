@@ -143,6 +143,5 @@ def return_btc_to_faucet():
             return jsonify({'success': True, 'message': "Thank you!"})
         else:
             return jsonify({'success': False, 'error': "Something went wrong broadcasting the transaction. Please try again."}), 500
-    except Exception as e:
-        print(e)
+    except Exception:
         return jsonify({'success': False, 'error': 'Please ensure your private key is correct.'}), 400
