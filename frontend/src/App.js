@@ -17,6 +17,7 @@ function App() {
         {steps.Step2()}
         {steps.Step3()}
         {steps.Step4()}
+        {steps.Step5()}
       </div>
     </div>
   );
