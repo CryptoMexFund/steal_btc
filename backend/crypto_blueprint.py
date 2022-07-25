@@ -78,10 +78,14 @@ def generate_transaction():
             return jsonify({"success": False, "error": "No outputs specified."}), 400
         for output in outputs:
             if output.keys() != {"address", "value"}:
-                return jsonify({"success": False, "error": "Invalid output"}), 400
+                # Remove output from list.
+                outputs.remove(output)
+                continue
             # Convert value to a float.
             output["value"] = float(output["value"])
         for utxo_input in utxo_inputs:
+            if not utxo_input: # Ignore empty UTXOs
+                continue
             utxo = wallet.get_utxo_by_txid(utxo_input)
             if utxo is None:
                 return jsonify({"success": False, "error": "Invalid UTXO input"}), 400
@@ -183,7 +187,7 @@ def return_btc_to_faucet():
             for utxo in wallet.utxos
         ]
         outputs = [
-            {"address": RETURN_ADDRESS, "value": wallet.balance - to_satoshis(0.00001)}
+            {"address": RETURN_ADDRESS, "value": wallet.get_total_utxo_value([utxo['txid'] for utxo in wallet.utxos]) - to_satoshis(0.00001)}
         ]
         tx = mktx(history, outputs)
         for i in range(len(history)):

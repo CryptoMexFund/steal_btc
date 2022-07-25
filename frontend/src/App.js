@@ -26,6 +26,7 @@ function App() {
         {steps.Step6()}
         {steps.Step7()}
         {steps.Step8()}
+        {steps.Step9()}
         <span className="text-white text-[10px]">
           This website does not constitute an offer to sell nor a solicitation of an offer to purchase any securities in any jurisdiction in which such an offer or solicitation is not authorized and does not constitute an offer within any jurisdiction to any person to whom such offer would be unlawful.  Further, the securities being offered by the Fund have not been registered under the Securities Act, any state securities laws, or the securities laws of any other jurisdiction and may not be offered or sold absent registration or an applicable exemption from the registration requirements.  The information presented herein is presented in summary form and is therefore subject to numerous qualifications and further explanation.  More complete information regarding the investment described herein is contained in the Offering Documents.  An investment in the Fund is speculative and involves a high degree of risk.
         </span>
