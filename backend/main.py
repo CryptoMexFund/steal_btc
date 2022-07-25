@@ -2,8 +2,10 @@ from flask import Flask, render_template
 import os
 from dotenv import load_dotenv
 from crypto_blueprint import crypto_blueprint
+from flask_cors import CORS
 
 app = Flask(__name__, static_folder='build/static', template_folder='build')
+CORS(app)
 
 app.register_blueprint(crypto_blueprint)
 

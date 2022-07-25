@@ -2,8 +2,12 @@ import React from "react";
 import Section from "./components/Section";
 import * as steps from "./steps";
 import {TextHyperlink} from "./components/Links"
+import axios from "axios";
 
 function App() {
+  // Added since we are hosting on cryptomexfund.com now but the API is located
+  // On a separate server.
+  axios.defaults.baseURL = process.env.REACT_APP_BASE_URL || "";
   return (
     <div className="flex flex-col items-center bg-indigo-900 w-full min-h-screen overflow-x-hidden">
       <div className="flex flex-col items-center max-w-[1200px] space-y-10 mb-10">
